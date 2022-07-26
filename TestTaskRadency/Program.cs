@@ -18,12 +18,22 @@ string Order(string input)
     }
 
     Dictionary<string, int> countedWeights = new();
+    Dictionary<string, int> countedWeightsAmount = new();
     
     var inputNumbersArray = NormalizeInputString(input);
     
     foreach (var number in inputNumbersArray)
     {
         countedWeights[number] = CountNumberWeight(number);
+        
+        if (countedWeightsAmount.ContainsKey(number))
+        {
+            countedWeightsAmount[number] += 1;
+        }
+        else
+        {
+            countedWeightsAmount.Add(number, 1);
+        }
     }
 
     var sortedDict = 
@@ -31,7 +41,7 @@ string Order(string input)
         orderby entry.Value, entry.Key
         select entry;
 
-    return GenerateResult(sortedDict);
+    return GenerateResult(sortedDict, countedWeightsAmount);
 }
 
 IEnumerable<string> NormalizeInputString(string input)
@@ -55,13 +65,16 @@ int CountNumberWeight(string number)
     return weight;
 }
 
-string GenerateResult(IEnumerable<KeyValuePair<string, int>> sortedDict)
+string GenerateResult(IEnumerable<KeyValuePair<string, int>> sortedDict, Dictionary<string, int> numberInStringCounter)
 {
     StringBuilder result = new();
 
     foreach (var pair in sortedDict)
     {
-        result.Append(pair.Key).Append(' ');
+        for (var i = 0; i < numberInStringCounter[pair.Key] ; i++)
+        {
+            result.Append(pair.Key).Append(' ');
+        }
     }
 
     result.Length--;
