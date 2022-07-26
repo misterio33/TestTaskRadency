@@ -63,6 +63,7 @@ string GenerateResult(IEnumerable<KeyValuePair<string, int>> sortedDict)
     {
         result.Append(pair.Key).Append(' ');
     }
-    
+
+    result.Length--;
     return result.ToString();
 }
