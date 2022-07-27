@@ -14,7 +14,7 @@ string Order(string input)
 {
     if (string.IsNullOrEmpty(input))
     {
-        return "Empty String";
+        return string.Empty;
     }
 
     Dictionary<string, int> countedWeights = new();
